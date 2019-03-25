@@ -31,13 +31,23 @@ func DataRoutes() []Route {
 		},
 		Route{
 			Method:  "GET",
-			Handler: login.Auth,
+			Handler: handlers.Auth,
 			Path:    "/auth",
 		},
 		Route{
 			Method:  "POST",
-			Handler: login.Login,
+			Handler: handlers.Login,
 			Path:    "/login",
+		},
+		Route{
+			Method:  "GET",
+			Handler: handlers.Register,
+			Path:    "/register",
+		},
+		Route{
+			Method:  "GET",
+			Handler: handlers.Logout,
+			Path:    "/logout",
 		},
 	}
 	return routes

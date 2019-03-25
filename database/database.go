@@ -1,8 +1,9 @@
-package cmd
+package database
 
 import "database/sql"
+import _ "github.com/go-sql-driver/mysql"
 
-func DbConn() (db *sql.DB) {
+func MySQL() (db *sql.DB) {
 	dbDriver := "mysql"
 	dbUser := "root"
 	dbPass := "DIDIKprabowo_1995"
