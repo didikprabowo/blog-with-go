@@ -8,3 +8,10 @@
 2. MUX - github.com/gorilla/mux
 3. Session Gorilla - github.com/gorilla/sessions
 4. Bcrypt - golang.org/x/crypto
+
+## How to use
+1. go get github.com/didikprabowo/CMS-Blog
+2. Run 
+```
+go run main.go
+```
