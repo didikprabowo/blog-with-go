@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/didikprabowo/blog/handlers"
+	"github.com/didikprabowo/blog/handlers/admin"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -48,6 +49,11 @@ func DataRoutes() []Route {
 			Method:  "GET",
 			Handler: handlers.Logout,
 			Path:    "/logout",
+		},
+		Route{
+			Method:  "GET",
+			Handler: admin.GetCategory,
+			Path:    "/admin/category",
 		},
 	}
 	return routes
