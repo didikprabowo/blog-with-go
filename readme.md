@@ -10,7 +10,7 @@
 4. Bcrypt - golang.org/x/crypto
 
 ## How to use
-1. go get github.com/didikprabowo/CMS-Blog
+1. go get github.com/didikprabowo/blog
 2. Run 
 ```
 go run main.go
