@@ -1,12 +1,12 @@
 package admin
 
 import (
-	"strings"
-	// "fmt"
 	"github.com/didikprabowo/blog/database"
+	"github.com/didikprabowo/blog/models"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
 	"net/http"
+	"strings"
 	"text/template"
 )
 
@@ -15,12 +15,6 @@ var tmpl = template.Must(template.ParseGlob("templates/**/*.html"))
 
 type Meta struct {
 	Title string
-}
-type Category struct {
-	ID          int
-	Name        string
-	Description string
-	Slug        string
 }
 
 func GetCategory(w http.ResponseWriter, r *http.Request) {
@@ -35,8 +29,8 @@ func GetCategory(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-	emp := Category{}
-	res := []Category{}
+	emp := models.Category{}
+	res := []models.Category{}
 	for categories.Next() {
 		var id int
 		var name, description, slug string
