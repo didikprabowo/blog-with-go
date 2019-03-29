@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/didikprabowo/blog/database"
 	"github.com/didikprabowo/blog/models"
 	_ "github.com/go-sql-driver/mysql"
@@ -49,4 +50,16 @@ func GetCategory(w http.ResponseWriter, r *http.Request) {
 		"Titles":  Meta{Title: "Categories"},
 	}
 	tmpl.ExecuteTemplate(w, "category.html", m)
+}
+
+func CreateCategory(w http.ResponseWriter, r *http.Request) {
+	m := map[string]interface{}{
+		"Titles": Meta{Title: "Create Categories"},
+	}
+	tmpl.ExecuteTemplate(w, "addcategory.html", m)
+}
+func StoreCategory(w http.ResponseWriter, r *http.Request) {
+	name := r.FormValue("name")
+	fmt.Println(name)
+
 }
