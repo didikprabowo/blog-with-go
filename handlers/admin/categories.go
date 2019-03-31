@@ -1,7 +1,6 @@
 package admin
 
 import (
-	"fmt"
 	"github.com/didikprabowo/blog/database"
 	"github.com/didikprabowo/blog/models"
 	_ "github.com/go-sql-driver/mysql"
@@ -60,6 +59,16 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 }
 func StoreCategory(w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
-	fmt.Println(name)
+	description := r.FormValue("description")
+	slug := strings.ToLower(strings.Replace(name, " ", "-", -1))
+	db := database.MySQL()
+
+	query, err := db.Prepare("INSERT INTO categories (slug,name,description) values(?,?,?)")
+	if err != nil {
+		panic(err.Error())
+	}
+	query.Exec(slug, name, description)
+	defer db.Close()
+	http.Redirect(w, r, "/admin/category/", 301)
 
 }

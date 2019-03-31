@@ -62,7 +62,7 @@ func DataRoutes() []Route {
 		},
 		Route{
 			Method:  "POST",
-			Handler: admin.CreateCategory,
+			Handler: admin.StoreCategory,
 			Path:    "/admin/category/store",
 		},
 	}
