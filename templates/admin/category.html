@@ -13,7 +13,9 @@
             {{ template "_bodyhead"}} 
             <div class="mt-5">
             <h3>{{.Titles.Title }}</h3><br>
+          
             <a href="/admin/category/create" class="btn btn-outline-primary mb-3">Add New Category</a>
+            {{ if .Results}}
             <table class="table table-stripsed">
                 <thead>
                 <th>Name</th>
@@ -27,11 +29,14 @@
                             <td>{{.Name}}</td>
                             <td>{{.Slug}}</td>
                             <td>{{.Description}}</td>
-                            <td><a href="/admin/category/edit/{{.ID}}">EDIT</a></td>
+                            <td><a href="/admin/category/edit/{{.ID}}">EDIT</a> <a href="/admin/category/delete/{{.ID}}">DELETE</a></td>
                         </tr>
                     {{ end }}
                 </tbody>
             </table>
+            {{ else }}
+              <p>Data Not Found</p>
+            {{end}}
         </div>
     </div>  
     {{ template "_footer". }}

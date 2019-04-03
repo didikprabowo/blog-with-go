@@ -9,21 +9,21 @@
             {{ template "_bodyhead"}} 
             <div class="mt-5">
                 <h3 class="mb-5">Edit New Category</h3>
-                {{ if . }}
+                {{ if .Results.ID }}
                 <form method="POST" action="/admin/category/update">
                     <div class="form-group" >
                         <label for="exampleInputEmail1">Name</label>
-                        <input type="text" class="form-control" name="id" value={{ .Results.ID }}>
+                        <input type="hidden" class="form-control" name="id" value={{ .Results.ID }}>
                         <input type="text" class="form-control" name="name" value={{ .Results.Name }}>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Name</label>
-                        <textarea name="description"  cols="30" rows="10" class="form-control" placeholder="Enter Description">{{ .Results.Description }}</textarea> 
+                        <textarea name="description"  cols="30" rows="10" class="form-control">{{ .Results.Description }}</textarea> 
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
                 {{ else }}
-                <h1> Data Not Found</h1>
+                <p> Data Not Found</p>
                 {{ end }}
         </div>
     </div>  

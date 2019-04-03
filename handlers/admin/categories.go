@@ -109,3 +109,14 @@ func UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	update.Exec(name, description, id)
 	http.Redirect(w, r, "/admin/category", 301)
 }
+
+func DeleteCategory(w http.ResponseWriter, r *http.Request) {
+	ValID := mux.Vars(r)
+	id := ValID["id"]
+
+	db := database.MySQL()
+
+	query, _ := db.Prepare("DELETE from categories where id =?")
+	query.Exec(id)
+	http.Redirect(w, r, "/admin/category", 301)
+}
