@@ -1,0 +1,53 @@
+{{ define "posts.html"}}
+<!doctype html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {{ template "_header". }}
+    </head>
+    <body>
+        <div class="container">
+            {{ template "_bodyhead"}} 
+            <div class="mt-5">
+                <h3>{{.Titles.Title }}</h3><br>
+                <a href="/admin/post/create" class="btn btn-outline-primary mb-3">Add New Category</a>
+                {{ if .Results}}
+                <table class="table table-stripsed table-light" id="table-posts">
+                    <thead>
+                    <th>Title</th>
+                    <th>Slug</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                    </thead>
+                    <tbody>
+                        {{ range $posts,$i := .Results}}
+                            <tr>
+                                <td>{{.Title}}</td>
+                                <td>{{.Slug}}</td>
+                                <td>{{.Description}}</td>
+                                <td>{{.Category}}</td>
+                                <td>
+                                    <a href="/admin/category/edit/{{.Id}}" class="btn btn-info btn-xs">EDIT</a> 
+                                    <a class="btn btn-danger btn-xs" href="/admin/category/delete/{{.Id}}">DELETE</a>
+                                </td>
+                            </tr>
+                        {{ end }}
+                    </tbody>
+                </table>
+                {{ else }}
+                    <p>Data Not Found</p>
+                {{end}}
+            </div>
+        </div>  
+    {{ template "_footer". }}
+        <script>
+        $(document).ready( function () {
+            $('#table-posts').DataTable();
+        });
+        </script>
+    </body>
+</html>
+{{ end}}

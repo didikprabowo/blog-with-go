@@ -80,6 +80,16 @@ func DataRoutes() []Route {
 			Handler: admin.DeleteCategory,
 			Path:    "/admin/category/delete/{id}",
 		},
+		Route{
+			Method:  "GET",
+			Handler: admin.GetPosts,
+			Path:    "/admin/post",
+		},
+		Route{
+			Method:  "GET",
+			Handler: admin.CreatePost,
+			Path:    "/admin/post/create",
+		},
 	}
 	return routes
 }
