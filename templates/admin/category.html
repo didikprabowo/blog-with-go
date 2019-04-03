@@ -19,6 +19,7 @@
                 <th>Name</th>
                 <th>Slug</th>
                 <th>Description</th>
+                <th>Action</th>
                 </thead>
                 <tbody>
                     {{ range $category,$i := .Results}}
@@ -26,6 +27,7 @@
                             <td>{{.Name}}</td>
                             <td>{{.Slug}}</td>
                             <td>{{.Description}}</td>
+                            <td><a href="/admin/category/edit/{{.ID}}">EDIT</a></td>
                         </tr>
                     {{ end }}
                 </tbody>

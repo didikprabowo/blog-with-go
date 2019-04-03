@@ -65,6 +65,16 @@ func DataRoutes() []Route {
 			Handler: admin.StoreCategory,
 			Path:    "/admin/category/store",
 		},
+		Route{
+			Method:  "GET",
+			Handler: admin.EditCategory,
+			Path:    "/admin/category/edit/{id}",
+		},
+		Route{
+			Method:  "POST",
+			Handler: admin.UpdateCategory,
+			Path:    "/admin/category/update",
+		},
 	}
 	return routes
 }

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"github.com/didikprabowo/blog/database"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
@@ -38,7 +37,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	sessionsLogin.Values["email"] = email
 	sessionsLogin.Values["login"] = true
 	sessionsLogin.Save(r, w)
-	fmt.Println(sessionsLogin.Values["login"])
+	// fmt.Println(sessionsLogin.Values["login"])
+	http.Redirect(w, r, "admin/category", 301)
 }
 
 func HashPassword(password string) (string, error) {

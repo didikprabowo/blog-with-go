@@ -1,15 +1,18 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/didikprabowo/blog/database"
 	"github.com/didikprabowo/blog/models"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"net/http"
 	"strings"
 	"text/template"
 )
 
+var err error
 var store = sessions.NewCookieStore([]byte("didikprabowo"))
 var tmpl = template.Must(template.ParseGlob("templates/**/*.html"))
 
@@ -73,4 +76,36 @@ func StoreCategory(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Redirect(w, r, "/admin/category/", 301)
 	}
+}
+func EditCategory(w http.ResponseWriter, r *http.Request) {
+	valId := mux.Vars(r)
+	strid := valId["id"]
+	db := database.MySQL()
+	query, ok := db.Query("SELECT id,name,description,slug from categories where id =?", strid)
+	if ok != nil {
+		w.Write([]byte(err.Error()))
+	}
+	cats := models.Category{}
+	for query.Next() {
+		query.Scan(&cats.ID, &cats.Name, &cats.Description, &cats.Slug)
+	}
+	m := map[string]interface{}{
+		"Results": cats,
+		"Titles":  Meta{Title: "Edit Categories"},
+	}
+	tmpl.ExecuteTemplate(w, "editcategory.html", m)
+}
+func UpdateCategory(w http.ResponseWriter, r *http.Request) {
+	id := r.FormValue("id")
+	name := r.FormValue("name")
+	description := r.FormValue("description")
+
+	db := database.MySQL()
+
+	update, ok := db.Prepare("UPDATE categories set name =?, description =? where id =?")
+	if ok != nil {
+		fmt.Println(ok.Error())
+	}
+	update.Exec(name, description, id)
+	http.Redirect(w, r, "/admin/category", 301)
 }
