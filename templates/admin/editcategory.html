@@ -9,7 +9,8 @@
     <div class="container">
             {{ template "_bodyhead"}} 
             <div class="mt-5">
-                <h3 class="mb-5">Edit New Category</h3>
+                <h3>Edit New Category</h3>
+                <hr>
                 {{ if .Results.ID }}
                 <form method="POST" action="/admin/category/update">
                     <div class="form-group" >

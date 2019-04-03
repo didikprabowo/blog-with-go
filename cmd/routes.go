@@ -90,6 +90,11 @@ func DataRoutes() []Route {
 			Handler: admin.CreatePost,
 			Path:    "/admin/post/create",
 		},
+		Route{
+			Method:  "POST",
+			Handler: admin.StorePost,
+			Path:    "/admin/post/store",
+		},
 	}
 	return routes
 }

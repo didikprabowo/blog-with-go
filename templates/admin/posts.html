@@ -11,8 +11,9 @@
         <div class="container">
             {{ template "_bodyhead"}} 
             <div class="mt-5">
-                <h3>{{.Titles.Title }}</h3><br>
-                <a href="/admin/post/create" class="btn btn-outline-primary mb-3">Add New Category</a>
+                <h3>{{.Titles.Title }}</h3>
+                <hr>
+                <a href="/admin/post/create" class="btn btn-outline-primary mb-3">Add New Post</a>
                 {{ if .Results}}
                 <table class="table table-stripsed table-light" id="table-posts">
                     <thead>
@@ -30,8 +31,7 @@
                                 <td>{{.Description}}</td>
                                 <td>{{.Category}}</td>
                                 <td>
-                                    <a href="/admin/category/edit/{{.Id}}" class="btn btn-info btn-xs">EDIT</a> 
-                                    <a class="btn btn-danger btn-xs" href="/admin/category/delete/{{.Id}}">DELETE</a>
+                                    
                                 </td>
                             </tr>
                         {{ end }}
