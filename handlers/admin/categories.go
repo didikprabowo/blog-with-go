@@ -17,10 +17,6 @@ var store = sessions.NewCookieStore([]byte("didikprabowo"))
 
 //get Category
 func GetCategory(w http.ResponseWriter, r *http.Request) {
-	session, _ := store.Get(r, "login")
-	if len(session.Values) == 0 {
-		http.Redirect(w, r, "/auth", 301)
-	}
 	db := database.MySQL()
 	categories, err := db.Query("SELECT id,name,description,slug FROM categories ORDER BY id DESC")
 	if err != nil {
@@ -53,6 +49,7 @@ func GetCategory(w http.ResponseWriter, r *http.Request) {
 
 // CreateCategory
 func CreateCategory(w http.ResponseWriter, r *http.Request) {
+
 	m := map[string]interface{}{
 		"Titles": Meta{Title: "Create Categories"},
 	}

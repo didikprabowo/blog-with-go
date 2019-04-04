@@ -1,0 +1,66 @@
+{{ define "EditPosts.html"}}
+<!doctype html>
+<html lang="en">
+  <head>
+    {{ template "_header". }}
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+            {{ template "_bodyhead"}} 
+            <div class="mt-5">
+                <h3>Add New Post</h3><hr>
+                <form method="POST" action="/admin/post/store" enctype="multipart/form-data">
+                    <div class="form-group" >
+                        <label >Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Title" name="title" required value="{{ .Results.Title }}">
+                    </div>
+                    <div class="form-group">
+                        <label >Description</label>
+                        <textarea name="description" id="summernote" cols="30" rows="10" class="form-control" required>{{ .Results.Description }}</textarea> 
+                    </div>
+                    <div class="form-group">
+                            <label >Content</label>
+                            <textarea name="content" id="content" cols="30" rows="10" class="form-control" required>{{ .Results.Content }}</textarea> 
+                    </div>
+                    <div class="form-group">
+                            <label >Category</label>
+                            <select name="category_id" class="form-control" required>
+                                {{ range $categories ,$i := .Category }}
+                                        <option 
+                                        {{ if eq $i.ID $.Catid  }}
+                                            selected="selected"
+                                        {{ end }}
+                                        value="{{.ID}}">{{ $i.Name }}</option>
+                                {{ end }}
+                            </select>
+                            {{ .Results.Content}}
+                    </div>
+                    <div class="form-group">
+                            <label >Category</label>
+                            <input type="file" name="uploadfile" class="form-control" required />
+                    </div>
+                    <a href="/admin/post" class="btn btn-outline-primary">Back To Post</a>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+        </div>
+    </div>  
+    {{ template "_footer". }}
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#summernote').summernote({
+                    placeholder: 'Enter Description',
+                    tabsize: 2,
+                    height: 130
+                });
+                $('#content').summernote({
+                    placeholder: 'Enter Content',
+                    tabsize: 2,
+                    height: 330
+                });
+            });
+        </script>
+    </body>
+</html>
+{{ end}}
