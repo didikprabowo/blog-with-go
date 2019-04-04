@@ -122,3 +122,13 @@ func EditPost(w http.ResponseWriter, r *http.Request) {
 	}
 	tmpl.ExecuteTemplate(w, "EditPosts.html", Load)
 }
+
+func UpdatePost(w http.ResponseWriter, r *http.Request) {
+	id := r.PostFormValue("id")
+	var title string
+	title = r.PostFormValue("title")
+	db := database.MySQL()
+	result := fmt.Sprintf("UPDATE posts set title = %q where id = %v", title, id)
+	db.Query(result)
+	http.Redirect(w, r, "/admin/post", 301)
+}

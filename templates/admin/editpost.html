@@ -10,9 +10,10 @@
             {{ template "_bodyhead"}} 
             <div class="mt-5">
                 <h3>Add New Post</h3><hr>
-                <form method="POST" action="/admin/post/store" enctype="multipart/form-data">
+                <form method="POST" action="/admin/post/update" enctype="multipart/form-data">
                     <div class="form-group" >
                         <label >Name</label>
+                        <input type="hidden" class="form-control" placeholder="Enter Title" name="id" required value="{{ .Results.Id }}">
                         <input type="text" class="form-control" placeholder="Enter Title" name="title" required value="{{ .Results.Title }}">
                     </div>
                     <div class="form-group">
@@ -34,7 +35,6 @@
                                         value="{{.ID}}">{{ $i.Name }}</option>
                                 {{ end }}
                             </select>
-                            {{ .Results.Content}}
                     </div>
                     <div class="form-group">
                             <label >Category</label>
