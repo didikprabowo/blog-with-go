@@ -124,6 +124,11 @@ func DataRoutes() []Route {
 			Handler: loggingMiddleware(admin.UpdatePost),
 			Path:    "/admin/post/update",
 		},
+		Route{
+			Method:  "GET",
+			Handler: loggingMiddleware(admin.DeletePost),
+			Path:    "/admin/post/delete/{id}",
+		},
 	}
 	return routes
 }

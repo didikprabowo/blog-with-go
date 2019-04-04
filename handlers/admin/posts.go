@@ -125,10 +125,27 @@ func EditPost(w http.ResponseWriter, r *http.Request) {
 
 func UpdatePost(w http.ResponseWriter, r *http.Request) {
 	id := r.PostFormValue("id")
-	var title string
+
+	var title, description, content, category_id string
+
 	title = r.PostFormValue("title")
+	description = r.PostFormValue("description")
+	content = r.PostFormValue("content")
+	category_id = r.PostFormValue("category_id")
+
 	db := database.MySQL()
-	result := fmt.Sprintf("UPDATE posts set title = %q where id = %v", title, id)
+	result := fmt.Sprintf("UPDATE posts set title = %q , description = %q, content = %q , category_id = %q where id = %v", title, description, content, category_id, id)
 	db.Query(result)
+	http.Redirect(w, r, "/admin/post", 301)
+}
+
+func DeletePost(w http.ResponseWriter, r *http.Request) {
+	db := database.MySQL()
+	VarID := mux.Vars(r)
+	id := VarID["id"]
+
+	result := fmt.Sprintf("DELETE from posts where id = %v", id)
+	db.Query(result)
+	fmt.Println(result)
 	http.Redirect(w, r, "/admin/post", 301)
 }
