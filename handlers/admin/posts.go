@@ -75,7 +75,7 @@ func StorePost(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	query.Exec(title, description, content, "assets/img/"+handler.Filename, category, time.Now(), slug)
+	query.Exec(title, description, content, "static/img/"+handler.Filename, category, time.Now(), slug)
 	//upload image
 	f, err := os.OpenFile("assets/img/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
@@ -126,16 +126,27 @@ func EditPost(w http.ResponseWriter, r *http.Request) {
 func UpdatePost(w http.ResponseWriter, r *http.Request) {
 	id := r.PostFormValue("id")
 
-	var title, description, content, category_id string
+	var title, description, content, category_id, image string
 
 	title = r.PostFormValue("title")
 	description = r.PostFormValue("description")
 	content = r.PostFormValue("content")
 	category_id = r.PostFormValue("category_id")
+	file, handler, err := r.FormFile("uploadfile")
 
+	if err != nil {
+		image = r.PostFormValue("old_image")
+	} else {
+		f, _ := os.OpenFile("assets/img/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+		image = "static/img/" + handler.Filename
+		io.Copy(f, file)
+		old := strings.Replace(r.PostFormValue("old_image"), "static", "assets", -1)
+		os.Remove(old)
+	}
 	db := database.MySQL()
-	result := fmt.Sprintf("UPDATE posts set title = %q , description = %q, content = %q , category_id = %q where id = %v", title, description, content, category_id, id)
+	result := fmt.Sprintf("UPDATE posts set image = %q, title = %q , description = %q, content = %q , category_id = %q where id = %v", image, title, description, content, category_id, id)
 	db.Query(result)
+
 	http.Redirect(w, r, "/admin/post", 301)
 }
 
