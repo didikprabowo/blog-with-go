@@ -8,4 +8,5 @@ type Post struct {
 	Content     string
 	Image       string
 	Category    string
+	Created_at  string
 }

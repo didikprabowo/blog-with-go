@@ -1,0 +1,19 @@
+
+*{ font-family: 'Titillium Web', sans-serif; }
+body{
+    background-color: black !important;
+    position: relative;
+    z-index: -1;
+}
+.detail p{
+    color: white;
+    font-size: 17px;
+    text-align: left
+}
+.heading_label:hover{
+        text-decoration: none;
+        font-weight: bold
+}
+.heading_label span{
+  color: white;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{ template "_webheader"}}
+    <title>Beranda | LOG Activity </title>
+</head>
+<body >
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 m-5">
+                <h1 class="text-center text-white"> <a href="/" class="heading_label"><b class="text-danger">LOG</b> <span>Activity</span> </a></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+
+                {{ range $posts,$i:= .Results}}
+                <div class="mb-4">
+                    <h3><a class="text-white" href="/{{$i.Slug }}">  {{ $i.Title }}</a> </h3>
+                    <span class="text-muted">{{ $i.Created_at }} -   {{ $i.Category }}</span>
+                    <p class="text-white">   {{ $i.Description }}.[...]</p>
+                </div>
+                {{end}}
+                <hr>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

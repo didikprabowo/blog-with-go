@@ -66,4 +66,5 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, "login")
 	session.Options.MaxAge = -1
 	session.Save(r, w)
+	http.Redirect(w, r, "auth", 301)
 }

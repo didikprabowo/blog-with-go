@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/didikprabowo/blog/handlers"
 	"github.com/didikprabowo/blog/handlers/admin"
+	"github.com/didikprabowo/blog/handlers/web"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"net/http"
@@ -43,6 +44,7 @@ func loggingMiddleware(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func DataRoutes() []Route {
+
 	routes := []Route{
 		Route{
 			Method:  "GET",
@@ -81,7 +83,7 @@ func DataRoutes() []Route {
 		},
 		Route{
 			Method:  "POST",
-			Handler: admin.StoreCategory,
+			Handler: loggingMiddleware(admin.StoreCategory),
 			Path:    "/admin/category/store",
 		},
 		Route{
@@ -91,7 +93,7 @@ func DataRoutes() []Route {
 		},
 		Route{
 			Method:  "POST",
-			Handler: admin.UpdateCategory,
+			Handler: loggingMiddleware(admin.UpdateCategory),
 			Path:    "/admin/category/update",
 		},
 		Route{
@@ -128,6 +130,16 @@ func DataRoutes() []Route {
 			Method:  "GET",
 			Handler: loggingMiddleware(admin.DeletePost),
 			Path:    "/admin/post/delete/{id}",
+		},
+		Route{
+			Method:  "GET",
+			Handler: web.Beranda,
+			Path:    "/",
+		},
+		Route{
+			Method:  "GET",
+			Handler: web.DetailPosts,
+			Path:    "/{slug}",
 		},
 	}
 	return routes
