@@ -11,8 +11,25 @@ import (
 
 func Beranda(w http.ResponseWriter, r *http.Request) {
 
+	halamanFormUri := r.URL.Query().Get("halaman")
+	var halaman int
+	halaman = 1
+	var page, mulai int
+	if len(halamanFormUri) < 1 {
+		mulai = 0
+	} else {
+		ke, _ := strconv.Atoi(halamanFormUri)
+		if ke == 0 {
+			mulai = 0
+		} else {
+			page = ke
+			mulai = page*halaman - halaman
+		}
+	}
+
 	var posts []models.Post
-	query := models.GetAllPost()
+	query, count := models.GetAllPost(mulai, halaman)
+
 	for query.Next() {
 		var post models.Post
 		var description string
@@ -22,10 +39,13 @@ func Beranda(w http.ResponseWriter, r *http.Request) {
 		post.Description = strip.StripTags(description[0:100])
 		posts = append(posts, post)
 	}
+	var paging int
+	paging = count / halaman
 
 	Load := map[string]interface{}{
 		"Results": posts,
 		"Titles":  "Beranda",
+		"Pagings": paging,
 	}
 	tmpl.ExecuteTemplate(w, "beranda.html", Load)
 }

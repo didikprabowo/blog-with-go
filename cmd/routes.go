@@ -73,6 +73,11 @@ func DataRoutes() []Route {
 		},
 		Route{
 			Method:  "GET",
+			Handler: loggingMiddleware(admin.Dashboard),
+			Path:    "/admin",
+		},
+		Route{
+			Method:  "GET",
 			Handler: loggingMiddleware(admin.GetCategory),
 			Path:    "/admin/category",
 		},

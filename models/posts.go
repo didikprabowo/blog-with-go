@@ -17,15 +17,24 @@ type Post struct {
 	Created_at  string
 }
 
-func GetAllPost() *sql.Rows {
+func GetAllPost(mulai int, halaman int) (*sql.Rows, int) {
+
 	db := database.MySQL()
-	query, err := db.Query("SELECT posts.id, posts.title,posts.slug,posts.description,posts.content ," +
-		"posts.image,categories.name, posts.created_at FROM posts " +
-		"INNER JOIN categories  ON posts.category_id = categories.id")
+	result := fmt.Sprintf("SELECT  posts.id, posts.title,posts.slug,posts.description,posts.content ,"+
+		"posts.image,categories.name, posts.created_at FROM posts "+
+		"INNER JOIN categories  ON posts.category_id = categories.id order By id DESC Limit %v,%v", mulai, halaman)
+
+	query, err := db.Query(result)
 	if err != nil {
 		panic(err.Error)
 	}
-	return query
+	var count int
+	row := db.QueryRow("SELECT COUNT(*) as count FROM posts;")
+	row.Scan(&count)
+	if err != nil {
+		panic(err.Error)
+	}
+	return query, count
 }
 func DetailPost(slug string) *sql.Rows {
 	db := database.MySQL()
