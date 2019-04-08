@@ -1,30 +1,24 @@
 package web
 
 import (
-	"fmt"
 	"github.com/didikprabowo/blog/database"
 	"github.com/didikprabowo/blog/models"
 	"github.com/gorilla/mux"
-	"github.com/grokify/html-strip-tags-go" // => strip
+	"github.com/grokify/html-strip-tags-go"
 	"net/http"
 	"strconv"
 )
 
 func Beranda(w http.ResponseWriter, r *http.Request) {
-	db := database.MySQL()
-	query, err := db.Query("SELECT posts.id, posts.title,posts.slug,posts.description,posts.content ," +
-		"posts.image,categories.name, posts.created_at FROM posts " +
-		"INNER JOIN categories  ON posts.category_id = categories.id")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+
 	var posts []models.Post
+	query := models.GetAllPost()
 	for query.Next() {
 		var post models.Post
 		var description string
 		query.Scan(&post.Id, &post.Title, &post.Slug,
-			&description, &post.Content, &post.Image, &post.Category, &post.Created_at)
+			&description, &post.Content, &post.Image,
+			&post.Category, &post.Created_at)
 		post.Description = strip.StripTags(description[0:100])
 		posts = append(posts, post)
 	}
@@ -37,24 +31,18 @@ func Beranda(w http.ResponseWriter, r *http.Request) {
 }
 
 func DetailPosts(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	db := database.MySQL()
 	VarID := mux.Vars(r)
 	slug := VarID["slug"]
 
-	result := fmt.Sprintf("SELECT posts.id, posts.title,posts.description,posts.content ,"+
-		"posts.image,categories.name, posts.created_at FROM posts "+
-		"INNER JOIN categories  ON posts.category_id = categories.id where posts.slug = %q", slug)
-
-	query, err := db.Query(result)
-	if err != nil {
-		panic(err.Error())
-	}
+	query := models.DetailPost(slug)
 	post := models.Post{}
 	for query.Next() {
 		var Content string
-		query.Scan(&post.Id, &post.Title, &post.Description, &Content, &post.Image, &post.Category, &post.Created_at)
+		query.Scan(&post.Id, &post.Title, &post.Description,
+			&Content, &post.Image, &post.Category,
+			&post.Created_at)
 		post.Content = Content
 	}
 	//category
@@ -66,7 +54,8 @@ func DetailPosts(w http.ResponseWriter, r *http.Request) {
 	var categories []models.Category
 	for categoriesQ.Next() {
 		var categoryq models.Category
-		categoriesQ.Scan(&categoryq.ID, &categoryq.Name, &categoryq.Description, &categoryq.Slug)
+		categoriesQ.Scan(&categoryq.ID, &categoryq.Name,
+			&categoryq.Description, &categoryq.Slug)
 		categories = append(categories, categoryq)
 	}
 
@@ -75,7 +64,6 @@ func DetailPosts(w http.ResponseWriter, r *http.Request) {
 		"Catid":    catid,
 		"Results":  post,
 		"Category": categories,
-		// "Titles":   post.Title,
 	}
 	tmpl.ExecuteTemplate(w, "detailposts.html", Load)
 }
