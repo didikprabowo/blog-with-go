@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     {{ template "_webheader"}}
-    <title>Beranda | LOG Activity </title>
+    <title>{{ .Title }} | LOG Activity </title>
 </head>
 <body >
+
     <div class="container">
         <div class="row">
             <div class="col-md-12 m-5">
@@ -12,19 +13,30 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-7 offset-md-1">
+                    {{ if .Results }}
+                        {{ range $posts,$i:= .Results}}
+                        <div class="mb-4">
+                            <h3><a class="text-white" href="/{{$i.Slug }}">  {{ $i.Title }}</a> </h3>
+                            <span class="text-muted">{{ $i.Created_at }} -   {{ $i.Category }}</span>
+                            <p class="text-white">   {{ $i.Description }}.[...]</p>
+                        </div>
+                        {{end}}
+                    {{ else }} 
+                        <p class="text-white text-center pt-5">Category Not Found Post</p>
 
-                {{ range $posts,$i:= .Results}}
-                <div class="mb-4">
-                    <h3><a class="text-white" href="/{{$i.Slug }}">  {{ $i.Title }}</a> </h3>
-                    <span class="text-muted">{{ $i.Created_at }} -   {{ $i.Category }}</span>
-                    <p class="text-white">   {{ $i.Description }}.[...]</p>
-                </div>
-                {{end}}  
+                    {{end}}
                 <hr>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-group">
+                        {{ range $Category,$i:= .CategoryAll}}
+                        <li class="list-group-item"><a href="/category/{{ $i.Slug }}">{{ $i.Name }}</a></li>
+                        {{end}}  
+                </ul>
             </div>
         </div>
     </div>
-    
+    {{ template "_webfooter"}}
 </body>
 </html>

@@ -43,6 +43,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	db := database.MySQL()
 	categoriesQ, err := db.Query("SELECT id,name,description,slug FROM categories ORDER BY id DESC")
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

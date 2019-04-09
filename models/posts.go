@@ -7,23 +7,26 @@ import (
 )
 
 type Post struct {
-	Id          int
-	Title       string
-	Slug        string
-	Description string
-	Content     string
-	Image       string
-	Category    string
-	Created_at  string
+	Id           int
+	Title        string
+	Slug         string
+	Description  string
+	Content      string
+	Image        string
+	Category     string
+	Created_at   string
+	SlugCategory string
 }
 
-func GetAllPost(mulai int, halaman int) (*sql.Rows, int) {
+var db = database.MySQL()
 
-	db := database.MySQL()
+func GetAllPost(mulai int, halaman int, slugCat string) (*sql.Rows, int) {
+	var slug string
+	slug = "%" + slugCat + "%"
 	result := fmt.Sprintf("SELECT  posts.id, posts.title,posts.slug,posts.description,posts.content ,"+
-		"posts.image,categories.name, posts.created_at FROM posts "+
-		"INNER JOIN categories  ON posts.category_id = categories.id order By id DESC Limit %v,%v", mulai, halaman)
-
+		"posts.image,categories.name, posts.created_at, categories.slug FROM posts "+
+		"INNER JOIN categories  ON posts.category_id = categories.id where categories.slug LIKE %q order By id DESC Limit %v,%v", slug, mulai, halaman)
+	fmt.Println(result)
 	query, err := db.Query(result)
 	if err != nil {
 		panic(err.Error)
@@ -37,7 +40,6 @@ func GetAllPost(mulai int, halaman int) (*sql.Rows, int) {
 	return query, count
 }
 func DetailPost(slug string) *sql.Rows {
-	db := database.MySQL()
 	result := fmt.Sprintf("SELECT posts.id, posts.title,posts.description,posts.content ,"+
 		"posts.image,categories.name, posts.created_at FROM posts "+
 		"INNER JOIN categories  ON posts.category_id = categories.id where posts.slug = %q", slug)

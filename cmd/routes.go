@@ -146,6 +146,11 @@ func DataRoutes() []Route {
 			Handler: web.DetailPosts,
 			Path:    "/{slug}",
 		},
+		Route{
+			Method:  "GET",
+			Handler: web.PostByCategory,
+			Path:    "/category/{slug}",
+		},
 	}
 	return routes
 }
