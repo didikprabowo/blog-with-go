@@ -17,3 +17,10 @@ body{
 .heading_label span{
   color: white;
 }
+.detail img {
+  width: 100% !important;
+  border: 5px;
+}
+.content-section {
+  min-height: 2000px;
+}

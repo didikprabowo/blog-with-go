@@ -26,7 +26,6 @@ func GetAllPost(mulai int, halaman int, slugCat string) (*sql.Rows, int) {
 	result := fmt.Sprintf("SELECT  posts.id, posts.title,posts.slug,posts.description,posts.content ,"+
 		"posts.image,categories.name, posts.created_at, categories.slug FROM posts "+
 		"INNER JOIN categories  ON posts.category_id = categories.id where categories.slug LIKE %q order By id DESC Limit %v,%v", slug, mulai, halaman)
-	fmt.Println(result)
 	query, err := db.Query(result)
 	if err != nil {
 		panic(err.Error)

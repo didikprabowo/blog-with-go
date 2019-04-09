@@ -4,7 +4,6 @@ import (
 	"github.com/didikprabowo/blog/database"
 	"github.com/didikprabowo/blog/models"
 	"github.com/gorilla/mux"
-	"github.com/grokify/html-strip-tags-go"
 	"net/http"
 	"strconv"
 )
@@ -29,14 +28,14 @@ func Beranda(w http.ResponseWriter, r *http.Request) {
 
 	var posts []models.Post
 	query, count := models.GetAllPost(mulai, halaman, "")
-
+	var post models.Post
 	for query.Next() {
-		var post models.Post
+
 		var description string
 		query.Scan(&post.Id, &post.Title, &post.Slug,
 			&description, &post.Content, &post.Image,
 			&post.Category, &post.Created_at, &post.SlugCategory)
-		post.Description = strip.StripTags(description[0:100])
+		post.Description = description[0:50]
 		posts = append(posts, post)
 	}
 	var paging int
@@ -95,7 +94,7 @@ func PostByCategory(w http.ResponseWriter, r *http.Request) {
 		query.Scan(&post.Id, &post.Title, &post.Slug,
 			&description, &post.Content, &post.Image,
 			&post.Category, &post.Created_at, &post.SlugCategory)
-		post.Description = strip.StripTags(description[0:100])
+		post.Description = description[0:50]
 		posts = append(posts, post)
 	}
 	var paging int

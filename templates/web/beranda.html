@@ -24,11 +24,12 @@
                         {{end}}
                     {{ else }} 
                         <p class="text-white text-center pt-5">Category Not Found Post</p>
-
                     {{end}}
                 <hr>
             </div>
             <div class="col-md-4">
+                <img src="https://i1.wp.com/didikprabowo.com/wp-content/uploads/2018/12/headerwhite.png?w=682&ssl=1" alt="" srcset="" class="img-fluid mb-5">
+                
                 <ul class="list-group">
                         {{ range $Category,$i:= .CategoryAll}}
                         <li class="list-group-item"><a href="/category/{{ $i.Slug }}">{{ $i.Name }}</a></li>
