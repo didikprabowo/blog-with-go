@@ -1,7 +1,6 @@
 package web
 
 import (
-	"fmt"
 	"github.com/didikprabowo/blog/database"
 	"github.com/didikprabowo/blog/models"
 	"github.com/gorilla/mux"
@@ -10,7 +9,6 @@ import (
 )
 
 func Beranda(w http.ResponseWriter, r *http.Request) {
-
 	halamanFormUri := r.URL.Query().Get("halaman")
 	var halaman int
 	halaman = 8
@@ -60,8 +58,7 @@ func Beranda(w http.ResponseWriter, r *http.Request) {
 	for i := range values {
 		values[i] = (i + 1)
 	}
-	fmt.Println(values)
-	fmt.Println(paging)
+
 	Load := map[string]interface{}{
 		"Results":     posts,
 		"Title":       "Beranda",
@@ -102,6 +99,7 @@ func PostByCategory(w http.ResponseWriter, r *http.Request) {
 		post.Description = description[0:50]
 		posts = append(posts, post)
 	}
+
 	var paging int
 	paging = count / halaman
 
@@ -123,8 +121,7 @@ func PostByCategory(w http.ResponseWriter, r *http.Request) {
 	for i := range values {
 		values[i] = (i + 1)
 	}
-	fmt.Println(values)
-	fmt.Println(paging)
+
 	Load := map[string]interface{}{
 		"Results":     posts,
 		"Title":       post.Category,
@@ -134,6 +131,8 @@ func PostByCategory(w http.ResponseWriter, r *http.Request) {
 
 	tmpl.ExecuteTemplate(w, "beranda.html", Load)
 }
+
+// Detail Post
 func DetailPosts(w http.ResponseWriter, r *http.Request) {
 
 	db := database.MySQL()
@@ -162,7 +161,6 @@ func DetailPosts(w http.ResponseWriter, r *http.Request) {
 			&categoryq.Description, &categoryq.Slug)
 		categories = append(categories, categoryq)
 	}
-
 	catid, _ := strconv.Atoi(post.Category)
 	Load := map[string]interface{}{
 		"Catid":    catid,

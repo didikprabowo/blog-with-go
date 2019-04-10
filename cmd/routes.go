@@ -1,10 +1,11 @@
 package cmd
 
 import (
-	"fmt"
+	// "fmt"
 	"github.com/didikprabowo/blog/handlers"
 	"github.com/didikprabowo/blog/handlers/admin"
 	"github.com/didikprabowo/blog/handlers/web"
+	"github.com/didikprabowo/blog/utils"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"net/http"
@@ -23,6 +24,7 @@ func AppRegister() *mux.Router {
 	for _, v := range routes {
 		r.Path(v.Path).HandlerFunc(v.Handler).Methods(v.Method)
 	}
+
 	return r
 }
 
@@ -39,7 +41,6 @@ func loggingMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		} else {
 			next.ServeHTTP(w, r)
 		}
-		fmt.Println(len(session.Values))
 	})
 }
 
@@ -138,17 +139,17 @@ func DataRoutes() []Route {
 		},
 		Route{
 			Method:  "GET",
-			Handler: web.Beranda,
+			Handler: utils.LogRequest(web.Beranda),
 			Path:    "/",
 		},
 		Route{
 			Method:  "GET",
-			Handler: web.DetailPosts,
+			Handler: utils.LogRequest(web.DetailPosts),
 			Path:    "/{slug}",
 		},
 		Route{
 			Method:  "GET",
-			Handler: web.PostByCategory,
+			Handler: utils.LogRequest(web.PostByCategory),
 			Path:    "/category/{slug}",
 		},
 	}

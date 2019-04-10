@@ -37,7 +37,6 @@ func GetAllPost(mulai int, halaman int, slugCat string) (*sql.Rows, int) {
 	if err != nil {
 		panic(err.Error)
 	}
-	fmt.Println(resultCount)
 	return query, count
 }
 func DetailPost(slug string) *sql.Rows {
