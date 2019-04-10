@@ -44,12 +44,3 @@ func main() {
 ```
 go run main.go
 ```
-## Fitur 
-1. Login - Done
-2. Category 
-    - Read - Done
-    - Create 
-    - Updae 
-    - Delete
-3. Posts
-4. Users
