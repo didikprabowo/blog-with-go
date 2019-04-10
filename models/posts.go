@@ -31,11 +31,13 @@ func GetAllPost(mulai int, halaman int, slugCat string) (*sql.Rows, int) {
 		panic(err.Error)
 	}
 	var count int
-	row := db.QueryRow("SELECT COUNT(*) as count FROM posts;")
+	resultCount := fmt.Sprintf("SELECT COUNT(*) as count FROM posts INNER JOIN categories  ON posts.category_id = categories.id where categories.slug LIKE %q", "%"+slug+"%")
+	row := db.QueryRow(resultCount)
 	row.Scan(&count)
 	if err != nil {
 		panic(err.Error)
 	}
+	fmt.Println(resultCount)
 	return query, count
 }
 func DetailPost(slug string) *sql.Rows {

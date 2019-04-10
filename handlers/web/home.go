@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"github.com/didikprabowo/blog/database"
 	"github.com/didikprabowo/blog/models"
 	"github.com/gorilla/mux"
@@ -12,7 +13,7 @@ func Beranda(w http.ResponseWriter, r *http.Request) {
 
 	halamanFormUri := r.URL.Query().Get("halaman")
 	var halaman int
-	halaman = 10
+	halaman = 8
 	var page, mulai int
 	if len(halamanFormUri) < 1 {
 		mulai = 0
@@ -55,11 +56,16 @@ func Beranda(w http.ResponseWriter, r *http.Request) {
 			&categoryq.Description, &categoryq.Slug)
 		categories = append(categories, categoryq)
 	}
-
+	values := make([]int, paging)
+	for i := range values {
+		values[i] = (i + 1)
+	}
+	fmt.Println(values)
+	fmt.Println(paging)
 	Load := map[string]interface{}{
 		"Results":     posts,
 		"Title":       "Beranda",
-		"Pagings":     paging,
+		"Pagings":     values,
 		"CategoryAll": categories,
 	}
 	tmpl.ExecuteTemplate(w, "beranda.html", Load)
@@ -71,7 +77,7 @@ func PostByCategory(w http.ResponseWriter, r *http.Request) {
 	slugCat := VarID["slug"]
 	halamanFormUri := r.URL.Query().Get("halaman")
 	var halaman int
-	halaman = 10
+	halaman = 8
 	var page, mulai int
 	if len(halamanFormUri) < 1 {
 		mulai = 0
@@ -89,7 +95,6 @@ func PostByCategory(w http.ResponseWriter, r *http.Request) {
 	query, count := models.GetAllPost(mulai, halaman, slugCat)
 	var post models.Post
 	for query.Next() {
-
 		var description string
 		query.Scan(&post.Id, &post.Title, &post.Slug,
 			&description, &post.Content, &post.Image,
@@ -114,13 +119,19 @@ func PostByCategory(w http.ResponseWriter, r *http.Request) {
 			&categoryq.Description, &categoryq.Slug)
 		categories = append(categories, categoryq)
 	}
-
+	values := make([]int, paging)
+	for i := range values {
+		values[i] = (i + 1)
+	}
+	fmt.Println(values)
+	fmt.Println(paging)
 	Load := map[string]interface{}{
 		"Results":     posts,
 		"Title":       post.Category,
-		"Pagings":     paging,
+		"Pagings":     values,
 		"CategoryAll": categories,
 	}
+
 	tmpl.ExecuteTemplate(w, "beranda.html", Load)
 }
 func DetailPosts(w http.ResponseWriter, r *http.Request) {
